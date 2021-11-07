@@ -1,3 +1,3 @@
-# GraduationWork
+# Graduation Work
 
 ## Posture correction system
