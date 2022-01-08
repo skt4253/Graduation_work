@@ -5,6 +5,7 @@
 
 ### 2022-01-08
 데이터베이스는 localhost로 실행하기 때문에 아래의 프로그램을 다운로드해야함.
+
 XAMPP control panel: https://www.apachefriends.org/download.html
 
 위의 프로그램을 실행하고, "Apache"와 "MySQL"을 Start해야함. ("MySQL"을 실행 시, 가끔 충돌이 일어나는 오류가 있음.)
