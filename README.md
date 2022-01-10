@@ -23,4 +23,4 @@ XAMPP control panel: https://www.apachefriends.org/download.html
 
 ---
 ### 2022-01-10
-아두이노 - 압력센서, 진동센서 사용하는 코드(완전 완성은 )
+아두이노 - 압력센서, 진동센서 사용하는 코드(완전 완성은 x)
