@@ -93,7 +93,7 @@ DB의 CRUD는 구현을 하였으나, 회원 가입 시 아이디 중복 체크 
 4. DB 연결 방법은 아직 찾지 못 함.
 5. 추가 자료 조사는 따로 카페에 업로드 예정
 
-## EU 홈페이지: https://eutime.netlify.app/
+### EU 홈페이지: https://eutime.netlify.app/
 
 <br/>
 
