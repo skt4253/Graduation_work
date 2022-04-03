@@ -47,6 +47,7 @@ HARDWARE(dataset)
 ---
 
 ### 2022-04-03
-HARDWARE
+HARDWARE(Posture_correction(ver.8))
+- 모비우스에 값 전달하는 것 아직 진행중
 
 
