@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="Chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::EU 자세 교정::</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/main.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <h1>EU 자세 교정 시스템</h1>
+            <p>이 시스템에 대한 자세한 설명을 추가 예정</p>
+        </div>
+    </header>
+
+    <section>
+        <div id="menu">
+            <div id="toc-toggle" onclick="openCloseToc()">바른 자세란?</div>
+            <div id="toc-content"> <!--바른 자세에 대한 설명-->
+                <p> 책상을 당겨서 앉은키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록, 앉아서 무릎이 90도 정도가 되도록 조정한다.</p>
+                <p> 앉는 면의 길이는 몸을 충분히 지탱해 줄 수 있는, 엉덩이와 무릎까지의 길이에 2cm를 더한 수치가 좋으며, 너비는 엉덩이의 너비에 6~7cm의 여유를 두면 좋다.</p>
+                <p> 책상의 높이는 바른 자세로 앉아 팔을 내렸을 때, 팔꿈치 높이보다 1~2cm 정도 높은 책상이 적당한 데, 팔을 자연스럽게 올렸을 때, 팔꿈치가 90도를 유지하는 것이 좋다.</p>
+                <div class="sit"> <!--바른 자세 이미지-->
+                    <img src="./img/sit.png">
+                </div>    
+            </div>
+        </div>
+        <div class="all">
+            <div class="left">
+                <!--자세 이미지가 나타나는 부분-->
+                <img src="./img/good.png"> <!--추후 js로 실시간 이미지 변화를 줄 예정-->
+            </div>
+            <div class="right">
+                <!--문구 띄우는 부분-->
+                <h2>자세가 좋습니다.</h2> <!--추후 js로 실시간 문구 변화를 줄 예정-->
+                <h2>계속 유지하세요!</h2>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <!--넣을 게 있나?-->
+    </footer>
+    <script>
+        function openCloseToc() { // 바른 자세 접기, 펼치기 스크립트
+          if(document.getElementById('toc-content').style.display === 'block') {
+            document.getElementById('toc-content').style.display = 'none';
+            document.getElementById('toc-toggle').textContent = '바른 자세란?';
+          } else {
+            document.getElementById('toc-content').style.display = 'block';
+            document.getElementById('toc-toggle').textContent = '닫기';
+          }
+        }
+      </script>
+</body>
+
+</html>

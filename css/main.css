@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    float: auto;
+}
+
+.header {
+    height: 220px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    position: relative;
+}
+
+.header::after {
+    height: 220px;
+    width: 100%;
+    content: "";
+    position: absolute;
+    background-size: 100% 100%;
+    opacity: 70%;
+    top: 0;
+    left: 0;
+}
+
+.header h1 {
+    padding-top: 65px;
+    font-size: 35px;
+}
+
+.header p {
+    padding-top: 20px;
+}
+
+#menu {
+    border: 1px solid #ccc;
+    background-color: seagreen;
+    border-width: 3px 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.header p {
+    font-size: 18px;
+}
+
+.text {
+    font-size: 20px;
+    width: 60%;
+    padding: 20px 60px 0 100px;
+    float: left;
+}
+
+p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+}
+
+.sit {
+    padding-right: 50px;
+}
+
+.sit img {
+    width: 350px;
+    height: 350px;
+}
+
+#menu ul {
+    list-style-type: none;
+    display: inline-block;
+}
+
+#menu li {
+    display: inline;
+    float: left;
+}
+
+h2:nth-child(1) {
+    font-size: 40px;
+    padding-top: 160px;
+}
+
+h2:nth-child(2) {
+    font-size: 30px;
+    padding-top: 20px;
+    color: gray;
+}
+
+#menu ul a {
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+#menu ul a:hover {
+    color: black;
+}
+
+div .all {
+    width: 100%;
+    height: 440px;
+    border: 1px solid #003458;
+}
+
+div .left {
+    width: 50%;
+    float: left;
+    height: 440px;
+    box-sizing: border-box;
+    /* background: #8977ad; */
+}
+
+img {
+    display: block;
+    margin: auto;
+    height: 440px;
+    width: 440px;
+}
+
+div .right {
+    width: 50%;
+    float: right;
+    height: 440px;
+    box-sizing: border-box;
+    background: ivory;
+    text-align: center;
+}
+
+#toc-content {
+    display: none;
+}
+
+#toc-toggle {
+    cursor: pointer;
+}
+
+#toc-toggle:hover {
+    text-decoration: underline;
+    color: white;
+}
