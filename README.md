@@ -49,7 +49,7 @@ HARDWARE(dataset)
 ### 2022-04-03
 HARDWARE(Posture_correction(ver.8))
 - 모비우스에 값 전달하는 것 아직 진행중
-
+---
 ### 2022-04-08
 HARDWARE(Posture_correction(ver.9))
 - 센서값이 PHP를 통해 DB에 저장될 수 있도록 함
