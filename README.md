@@ -56,5 +56,5 @@ HARDWARE(Posture_correction(ver.9))
 ---
 ### 2022-04-29
 #### HARDWARE
-machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝
+machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝<br>
 sensor.php: DB에 저장했던 값 불러오는 
