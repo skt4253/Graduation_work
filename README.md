@@ -58,3 +58,9 @@ HARDWARE(Posture_correction(ver.9))
 #### HARDWARE
 machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝<br>
 sensor.php: DB에 저장했던 값 불러오는 
+
+---
+### 2022-05-02
+#### HARDWARE (machine learning(ver.2))
+- 입력값을 입력시 저장되어있는 머신러닝을 불러와 예측한 뒤 웹페이지에 나타나도록 함<br>
+- DB와 연결하여 입력값을 DB에서 가져온 값으로 처리할 예정
