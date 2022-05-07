@@ -20,14 +20,14 @@
 
 ---
 ### 2022-04-03
-HARDWARE(Posture_correction(ver.8))
+HARDWARE(HARDWARE(ver.10))
 - 모비우스에 값 전달하는 것 아직 진행중
 
 <br />
 
 ---
 ### 2022-04-08
-HARDWARE(Posture_correction(ver.9))
+HARDWARE(HARDWARE(ver.11))
 - 센서값이 PHP를 통해 DB에 저장될 수 있도록 함
 
 <br />
@@ -55,13 +55,13 @@ HARDWARE(Posture_correction(ver.9))
 
 ---
 ### 2022-04-29
-#### HARDWARE
+#### HARDWARE(HARDWARE(ver.13)
 machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝<br>
 sensor.php: DB에 저장했던 값 불러오는 
 
 ---
 ### 2022-05-02
-#### HARDWARE (machine learning(ver.2))
+#### HARDWARE (HARDWARE(ver.14))
 - 입력값을 입력시 저장되어있는 머신러닝을 불러와 예측한 뒤 웹페이지에 나타나도록 함<br>
 - DB와 연결하여 입력값을 DB에서 가져온 값으로 처리할 예정
 - 사용방법과 참고자료: 1. https://velog.io/@awesome-hong/VScode%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95-Flask-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0<br>
