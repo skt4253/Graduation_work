@@ -55,7 +55,7 @@ HARDWARE(HARDWARE(ver.11))
 
 ---
 ### 2022-04-29
-#### HARDWARE(HARDWARE(ver.13)
+#### HARDWARE(HARDWARE(ver.13))
 machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝<br>
 sensor.php: DB에 저장했던 값 불러오는 
 
@@ -66,3 +66,9 @@ sensor.php: DB에 저장했던 값 불러오는
 - DB와 연결하여 입력값을 DB에서 가져온 값으로 처리할 예정
 - 사용방법과 참고자료: 1. https://velog.io/@awesome-hong/VScode%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95-Flask-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0<br>
                      2. https://abluesnake.tistory.com/106
+                    
+---                   
+###2022-05-13  
+#### HARDWARE (HARDWARE(ver.16))
+- wifi모듈들이 고장이 나있어서 wifi모듈을 사용하지 않는 방법으로 만들었습니다.
+- 저번과 같이 파일안에 PDF파일로 사용방법을 간략하게 적어놨는데 잘 모르겠으면 물어봐주세요. 
