@@ -69,7 +69,7 @@ sensor.php: DB에 저장했던 값 불러오는
 - 사용방법과 참고자료: 1. https://velog.io/@awesome-hong/VScode%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95-Flask-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0<br>
                      2. https://abluesnake.tistory.com/106
                     
-                    <br />
+<br />
                     
 ---                   
 ### 2022-05-13  
