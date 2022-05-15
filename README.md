@@ -59,6 +59,8 @@ HARDWARE(HARDWARE(ver.11))
 machine learning.zip: 제가 가지고 있던 데이터로 돌려본 머신러닝<br>
 sensor.php: DB에 저장했던 값 불러오는 
 
+<br />
+
 ---
 ### 2022-05-02
 #### HARDWARE (HARDWARE(ver.14))
@@ -67,8 +69,17 @@ sensor.php: DB에 저장했던 값 불러오는
 - 사용방법과 참고자료: 1. https://velog.io/@awesome-hong/VScode%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95-Flask-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0<br>
                      2. https://abluesnake.tistory.com/106
                     
+                    <br />
+                    
 ---                   
-###2022-05-13  
+### 2022-05-13  
 #### HARDWARE (HARDWARE(ver.16))
 - wifi모듈들이 고장이 나있어서 wifi모듈을 사용하지 않는 방법으로 만들었습니다.
 - 저번과 같이 파일안에 PDF파일로 사용방법을 간략하게 적어놨는데 잘 모르겠으면 물어봐주세요. 
+
+<br />
+
+---
+### 2022-05-15
+- 모델 수정 및 업데이트
+- 캠 위치 가운데로 수정함. → 캠에 관한 설명은 카페 요약 
