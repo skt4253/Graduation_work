@@ -1,22 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import url("bootstrap/scss/functions");
+@import url("bootstrap/scss/variables");
+@import url("bootstrap/scss/mixins");
+@import url("bootstrap/scss/utilities");
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+/* $all-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "color": map-merge(
+      map-get($utilities, "color"),
+      (
+        values: map-merge(
+          map-get(map-get($utilities, "color"), "values"),
+          (
+            $all-colors
+          ),
+        ),
+      ),
+    ),
+  )
+); */
+
+@import "bootstrap/scss/utilities/api";
 
 * {
     margin: 0;
     padding: 0;
     float: auto;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .header {
-    height: 220px;
+    height: 200px;
     color: white;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(60deg, rgb(208, 251, 251), rgb(64, 112, 132), rgb(0, 0, 0));
     text-align: center;
     position: relative;
-}
+} */
 
-.header::after {
-    height: 220px;
+/* .header::after {
+    height: 150px;
     width: 100%;
     content: "";
     position: absolute;
@@ -24,11 +51,16 @@
     opacity: 70%;
     top: 0;
     left: 0;
+} */
+
+.accordion-item {
+    text-align: center;
 }
 
 .header h1 {
-    padding-top: 65px;
+    padding-top: 50px;
     font-size: 35px;
+    font-family: 'Black Han Sans', sans-serif;
 }
 
 .header p {
@@ -37,19 +69,20 @@
 
 #menu {
     border: 1px solid #ccc;
-    background-color: seagreen;
+    background-color: rgb(158,197,254);
     border-width: 3px 0;
-    list-style: none;
     margin: 0;
     padding: 0;
-    text-align: center;
 }
 
+.btn-size {
+    margin: 10px;
+}
 .header p {
     font-size: 18px;
 }
 
-.text {
+/* .text {
     font-size: 20px;
     width: 60%;
     padding: 20px 60px 0 100px;
@@ -71,7 +104,7 @@ p {
     height: 350px;
 }
 
-#menu ul {
+/* #menu ul {
     list-style-type: none;
     display: inline-block;
 }
@@ -79,9 +112,9 @@ p {
 #menu li {
     display: inline;
     float: left;
-}
+} */
 
-h2:nth-child(1) {
+/* h2:nth-child(1) {
     font-size: 40px;
     padding-top: 160px;
 }
@@ -90,9 +123,9 @@ h2:nth-child(2) {
     font-size: 30px;
     padding-top: 20px;
     color: gray;
-}
+} */
 
-#menu ul a {
+/* #menu ul a {
     padding: 10px;
     text-decoration: none;
     color: white;
@@ -100,7 +133,7 @@ h2:nth-child(2) {
 
 #menu ul a:hover {
     color: black;
-}
+} */
 
 div .all {
     width: 100%;
@@ -119,20 +152,21 @@ div .left {
 img {
     display: block;
     margin: auto;
-    height: 440px;
-    width: 440px;
+    height: 400px;
+    width: 400px;
 }
 
 div .right {
-    width: 50%;
-    float: right;
+    /* width: 50%; */
+    /* float: right; */
+    margin-top: 30px;
     height: 440px;
     box-sizing: border-box;
-    background: ivory;
+    /* background: ivory; */
     text-align: center;
 }
 
-#toc-content {
+/* #toc-content {
     display: none;
 }
 
@@ -143,4 +177,4 @@ div .right {
 #toc-toggle:hover {
     text-decoration: underline;
     color: white;
-}
+} */
