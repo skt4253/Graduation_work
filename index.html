@@ -27,9 +27,6 @@
         //async function finish() {
             //webcam.stop();
         //}
-        $(document).ready(function() {
-            init();
-        });
 
         async function init() {
             //v.innerHTML = '<img src="camera-video-off.svg" style="width:40px;height:35px;">';
@@ -175,7 +172,7 @@
     <header>
         
         <div class="header" style="position:relative;">
-            <img src="./img/자세.png" style="z-index:1;height:180px;width:120px;position:absolute;margin-left:490px;margin-top:5px;">
+            <img src="./img/자세.png" style="z-index:1;height:170px;width:130px;position:absolute;margin-left:480px;margin-top:5px;">
             <h1 style="z-index:10;"><strong>[EU 자세 교정 시스템]</strong></h1>
             <p>캠과 방석으로 스스로 자세를 교정하는 습관을 만들자! </p>
         </div>
@@ -216,22 +213,29 @@
             </div> -->
             <div class="right">
                 <!--문구 띄우는 부분-->
-                <!-- <button type="button" id="finish" onclick="init()" class="btn btn-primary btn-size"
-                    style="width:80px;height:50px;">
-                    <img src="./img/camera-video-fill.svg" style="width:40px;height:35px;"></button> -->
                 <!-- <button type="button" onclick="finish()" class="btn btn-primary btn-size"
                     style="width:80px;height:50px;">
                     <img src="camera-video-off.svg" style="width:40px;height:35px;"></button> -->
-                <div><canvas id="canvas"></canvas></div>
-                <!-- <div id="label-container" style="margin: 10px;"></div> -->
+                <div id="mini">
+                    <div id><canvas id="canvas"></canvas></div>
+                    <div id="label-container" style="margin: 5px;"></div>
+                </div>
                 <!--js로 실시간 문구 변화-->
             </div>
+            <!-- <button type="button" id="finish" onclick="init()" class="btn btn-primary btn-size"
+                    style="width:80px;height:50px;float:right;">
+                    <img src="./img/camera-video-fill.svg" style="width:40px;height:35px;"></button> -->
         </div>
     </section>
 
     <footer>
         <!--넣을 게 있나?-->
     </footer>
+    <script>
+        $(document).ready(function () {
+            init();
+        });
+    </script>
 </body>
 
 </html>
