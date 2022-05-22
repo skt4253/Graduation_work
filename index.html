@@ -18,54 +18,34 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        // More API functions here:
-        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
-
-        // the link to your model provided by Teachable Machine export panel
-        //var btnClick = document.getElementById('finish');
-        //btnClick.addEventListener("click", init);
-        //async function finish() {
-            //webcam.stop();
-        //}
-
         async function init() {
-            //v.innerHTML = '<img src="camera-video-off.svg" style="width:40px;height:35px;">';
             const URL = "./my_model/";
             let model, webcam, ctx, labelContainer, maxPredictions;
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
-            // load the model and metadata
-            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-            // Note: the pose library adds a tmPose object to your window (window.tmPose)
             model = await tmPose.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
 
-            // Convenience function to setup a webcam
-            const size = 400;
-            const flip = true; // whether to flip the webcam
-            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
+            const size = 350;
+            const flip = true;
+            webcam = new tmPose.Webcam(size, size, flip);
+            await webcam.setup();
             await webcam.play();
             window.requestAnimationFrame(loop);
 
-            // append/get elements to the DOM
             const canvas = document.getElementById("canvas");
             canvas.width = size; canvas.height = size;
             ctx = canvas.getContext("2d");
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+            for (let i = 0; i < maxPredictions; i++) {
                 labelContainer.appendChild(document.createElement("div"));
             }
 
             async function loop(timestamp) {
-                webcam.update(); // update the webcam frame
+                webcam.update();
                 await predict();
                 window.requestAnimationFrame(loop);
-                if (v.value == "no") {
-                    v.value = "yes";
-                    delete webcam;
-                }
             }
             // prediction[0] = good (바른 자세)
             // prediction[1] = right (오른쪽으로 치우쳐진 자세)
@@ -81,16 +61,13 @@
             var rightAudio = new Audio("./audio/right.mp3");
             var leftAudio = new Audio("./audio/left.mp3");
             var frontAudio = new Audio("./audio/front.mp3");
-            //var backAudio = new Audio("./audio/back.mp3");
+
             async function predict() {
-                // Prediction #1: run input through posenet
-                // estimatePose can take in an image, video or canvas html element
                 const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-                // Prediction 2: run input through teachable machine classification model
                 const prediction = await model.predict(posenetOutput);
                 if (prediction[0].probability.toFixed(2) >= 0.8) {
                     before = status;
-                    labelContainer.innerHTML = "<h4 style='color:blue;'>좋은 자세입니다. 계속 유지하세요!</h4>";
+                    labelContainer.innerHTML = "<h4 style='color:blue;'><strong>좋은 자세입니다. 계속 유지하세요!</strong></h4>";
                     status = "good";
                 }
                 else if (prediction[1].probability.toFixed(2) == 1.00) {
@@ -142,20 +119,18 @@
                         }
                         else {
                             wall = 0;
-                            labelContainer.innerHTML = "<h4 style='color: red;'>자리가 비었습니다.</h4>";
+                            labelContainer.innerHTML = "<h4 style='color: red;'><strong>자리가 비었습니다.</strong></h4>";
                         }
                     }
                     before = status;
                     status = "wall";
                 }
-                // finally draw the poses
                 drawPose(pose);
             }
 
             function drawPose(pose) {
                 if (webcam.canvas) {
                     ctx.drawImage(webcam.canvas, 0, 0);
-                    // draw the keypoints and skeleton
                     if (pose) {
                         const minPartConfidence = 0.2;
                         tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
@@ -164,15 +139,18 @@
                 }
             }
         }
-    </script>
 
+        function showPopup() {
+            window.open("ex.html","팝업 테스트","width=600, height=700");
+        }
+    </script>
 </head>
 
 <body>
     <header>
         
         <div class="header" style="position:relative;">
-            <img src="./img/자세.png" style="z-index:1;height:170px;width:130px;position:absolute;margin-left:480px;margin-top:5px;">
+            <!-- <img id="sit" src="./img/자세.png" style="z-index:1;height:170px;width:130px;position:absolute;margin-left:480px;margin-top:5px;"> -->
             <h1 style="z-index:10;"><strong>[EU 자세 교정 시스템]</strong></h1>
             <p>캠과 방석으로 스스로 자세를 교정하는 습관을 만들자! </p>
         </div>
@@ -191,11 +169,11 @@
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body" style="font-size: 18px;">
-                            1. 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록, 앉아서 <strong>무릎이 90도 정도</strong>가 되도록 조정한다. <br/>2. 앉는 면의
+                        <div class="accordion-body" style="font-size: 18px; text-align:left;">
+                            <strong>1.</strong> 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록 앉아서 <strong>무릎이 90도 정도</strong>가 되도록 조정한다. <br/><strong>2.</strong> 앉는 면의
                             길이는 몸을 충분히 지탱해 줄 수
-                            있는, 엉덩이와 무릎까지의 길이에 2cm를 더한 수치가 좋으며, 너비는 엉덩이의 너비에 6~7cm의 여유를 두면 좋다. <br/>3. 책상의 높이는 바른 자세로 앉아 팔을 내렸을
-                            때, 팔꿈치 높이보다 1~2cm 정도 높은 책상이 적당한 데, 팔을 자연스럽게 올렸을 때, 팔꿈치가 90도를 유지하는 것이 좋다.
+                            있는, <strong>엉덩이와 무릎까지의 길이에 2cm를 더한 수치</strong>가 좋으며, 너비는 <strong>엉덩이의 너비에 6~7cm</strong>의 여유를 두면 좋다. <br/><strong>3.</strong> 책상의 높이는 바른 자세로 앉아 팔을 내렸을
+                            때, <strong>팔꿈치 높이보다 1~2cm 정도</strong> 높은 책상이 적당한 데, 팔을 자연스럽게 올렸을 때, <strong>팔꿈치가 90도를 유지</strong>하는 것이 좋다.
                             <div class="sit">
                                 <!-- 바른 자세 이미지 -->
                                 <!-- <img src="./img/sit.png" style="width:400px; height:400px;padding:50px;"> -->
@@ -216,7 +194,10 @@
                 <!-- <button type="button" onclick="finish()" class="btn btn-primary btn-size"
                     style="width:80px;height:50px;">
                     <img src="camera-video-off.svg" style="width:40px;height:35px;"></button> -->
+                    
                 <div id="mini">
+                    <button type="button" onclick="showPopup()" class="btn btn-primary" style="width:100px;height:40px; margin-top:5px; margin-bottom:10px;">사용 방법</button>
+                    <button type="button" class="btn btn-success" style="width:100px;height:40px; margin-top:5px; margin-bottom:10px;">캠 팝업</button>
                     <div id><canvas id="canvas"></canvas></div>
                     <div id="label-container" style="margin: 5px;"></div>
                 </div>
