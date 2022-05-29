@@ -27,7 +27,7 @@
             model = await tmPose.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
 
-            const size = 350;
+            const size = 450;
             const flip = true;
             webcam = new tmPose.Webcam(size, size, flip);
             await webcam.setup();
@@ -67,7 +67,7 @@
                 const prediction = await model.predict(posenetOutput);
                 if (prediction[0].probability.toFixed(2) >= 0.8) {
                     before = status;
-                    labelContainer.innerHTML = "<h4 style='color:blue;'><strong>좋은 자세입니다. 계속 유지하세요!</strong></h4>";
+                    labelContainer.innerHTML = "<h4 style='color:blue;  font-size:36px;'><strong>좋은 자세입니다. 계속 유지하세요!</strong></h4>";
                     status = "good";
                 }
                 else if (prediction[1].probability.toFixed(2) == 1.00) {
@@ -119,7 +119,7 @@
                         }
                         else {
                             wall = 0;
-                            labelContainer.innerHTML = "<h4 style='color: red;'><strong>자리가 비었습니다.</strong></h4>";
+                            labelContainer.innerHTML = "<h4 style='color: red; font-size:36px;'><strong>자리가 비었습니다.</strong></h4>";
                         }
                     }
                     before = status;
@@ -141,18 +141,22 @@
         }
 
         function showPopup() {
-            window.open("ex.html","팝업 테스트","width=600, height=700");
+            window.open("popup.html", "사용 설명", "width=1000, height=700");
+        }
+
+        function show() {
+            window.open("show.html", "하체", "width=400, height=300");
         }
     </script>
 </head>
 
-<body>
+<body id="wrapper">
     <header>
-        
+
         <div class="header" style="position:relative;">
             <!-- <img id="sit" src="./img/자세.png" style="z-index:1;height:170px;width:130px;position:absolute;margin-left:480px;margin-top:5px;"> -->
-            <h1 style="z-index:10;"><strong>[EU 자세 교정 시스템]</strong></h1>
-            <p>캠과 방석으로 스스로 자세를 교정하는 습관을 만들자! </p>
+            <h1><strong>EU 자세 교정 시스템</strong></h1>
+            <!-- <span><p>캠과 방석으로 스스로 자세를 교정하는 습관을 만들자! </p></span> -->
         </div>
     </header>
 
@@ -170,10 +174,13 @@
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body" style="font-size: 18px; text-align:left;">
-                            <strong>1.</strong> 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록 앉아서 <strong>무릎이 90도 정도</strong>가 되도록 조정한다. <br/><strong>2.</strong> 앉는 면의
+                            <strong>1.</strong> 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록 앉아서 <strong>무릎이 90도
+                                정도</strong>가 되도록 조정한다. <br /><strong>2.</strong> 앉는 면의
                             길이는 몸을 충분히 지탱해 줄 수
-                            있는, <strong>엉덩이와 무릎까지의 길이에 2cm를 더한 수치</strong>가 좋으며, 너비는 <strong>엉덩이의 너비에 6~7cm</strong>의 여유를 두면 좋다. <br/><strong>3.</strong> 책상의 높이는 바른 자세로 앉아 팔을 내렸을
-                            때, <strong>팔꿈치 높이보다 1~2cm 정도</strong> 높은 책상이 적당한 데, 팔을 자연스럽게 올렸을 때, <strong>팔꿈치가 90도를 유지</strong>하는 것이 좋다.
+                            있는, <strong>엉덩이와 무릎까지의 길이에 2cm를 더한 수치</strong>가 좋으며, 너비는 <strong>엉덩이의 너비에 6~7cm</strong>의
+                            여유를 두면 좋다. <br /><strong>3.</strong> 책상의 높이는 바른 자세로 앉아 팔을 내렸을
+                            때, <strong>팔꿈치 높이보다 1~2cm 정도</strong> 높은 책상이 적당한데, 팔을 자연스럽게 올렸을 때, <strong>팔꿈치가 90도를
+                                유지</strong>하는 것이 좋다.
                             <div class="sit">
                                 <!-- 바른 자세 이미지 -->
                                 <!-- <img src="./img/sit.png" style="width:400px; height:400px;padding:50px;"> -->
@@ -194,10 +201,11 @@
                 <!-- <button type="button" onclick="finish()" class="btn btn-primary btn-size"
                     style="width:80px;height:50px;">
                     <img src="camera-video-off.svg" style="width:40px;height:35px;"></button> -->
-                    
+
                 <div id="mini">
-                    <button type="button" onclick="showPopup()" class="btn btn-primary" style="width:100px;height:40px; margin-top:5px; margin-bottom:10px;">사용 방법</button>
-                    <button type="button" class="btn btn-success" style="width:100px;height:40px; margin-top:5px; margin-bottom:10px;">캠 팝업</button>
+                    <button type="button" onclick="showPopup()" class="btn btn-primary"
+                        style="width:100px;height:40px; margin-top:10px; margin-bottom:10px;">사용 방법</button>
+                    <!-- <button type="button" class="btn btn-success" onclick="show()" style="width:100px;height:40px; margin-top:10px; margin-bottom:10px;">하체 팝업</button> -->
                     <div id><canvas id="canvas"></canvas></div>
                     <div id="label-container" style="margin: 5px;"></div>
                 </div>
@@ -213,9 +221,9 @@
         <!--넣을 게 있나?-->
     </footer>
     <script>
-        $(document).ready(function () {
-            init();
-        });
+            $(document).ready(function () {
+                init();
+            });
     </script>
 </body>
 
