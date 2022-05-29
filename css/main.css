@@ -12,13 +12,20 @@
     font-family: 'Nanum Gothic', sans-serif;
 }
 
+#wrapper {
+    background: url(../img/backgroun1.jpg) no-repeat center;
+    background-size: 100% 980px;
+}
+
 .header {
-    height: 180px;
+    height: 80px;
     color: white;
-    width: 100%;
-    background: linear-gradient(60deg, rgb(208, 251, 251), rgb(64, 112, 132), rgb(0, 0, 0));
-    text-align: center;
-    position: relative;
+    /* width: 100%; */
+    /* background: linear-gradient(60deg, rgb(208, 251, 251), rgb(64, 112, 132), rgb(0, 0, 0)); */
+    background-color: #003458;
+    padding: 15px;
+    /* text-align: center; */
+    /* position: relative; */
 } 
 
 .accordion-item {
@@ -26,13 +33,13 @@
 }
 
 .header h1 {
-    padding-top: 40px;
-    font-size: 35px;
+    /* padding-top: 40px; */
+    /* font-size: 35px; */
     font-family: 'Black Han Sans', sans-serif;
 }
 
 .header p {
-    padding-top: 20px;
+    /* padding-top: 20px; */
 }
 
 #menu {
@@ -72,7 +79,7 @@ div .left {
     /* background: #8977ad; */
 }
 
-img {
+#sit {
     display: block;
     margin: auto;
     height: 400px;
@@ -82,10 +89,10 @@ img {
 div .right {
     /* width: 50%; */
     /* float: right; */
-    margin-top: 20px;
+    /* margin-top: 20px; */
     height: 440px;
-    box-sizing: border-box;
-    background: ivory;
+    /* box-sizing: border-box; */
+    /* background: ivory; */
     text-align: center;
 }
 
