@@ -111,3 +111,8 @@ sensor.php: DB에 저장했던 값 불러오는
 <br/>
 
 ---
+### 2022-06-01
+#### HARDWARE(WEB.zip)
+
+- 파일 sensor1.php파일은 htdocs파일에
+- 나머지 파일들을 각자 사용하는 파일에 저장한 후 frame.html파일에서 각각의 파일에 대한 경로를 지정한다음 frame.html파일 실행
