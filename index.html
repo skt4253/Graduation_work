@@ -1,58 +1,71 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="Chrome">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>::EU 자세 교정::</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./img/person-workspace.svg">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
-    <script src="./js/main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>EU 자세 교정</title>
     <script>
-        async function init() {
+        async function init() { // 상체 자세 판단을 진행하는 함수
             const URL = "./my_model/";
             let model, webcam, ctx, labelContainer, maxPredictions;
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
+            let front1 = document.getElementById("front");
+            let front2 = 0;
+            let left1 = document.getElementById("left");
+            let left2 = 0;
+            let right1 = document.getElementById("right");
+            let right2 = 0;
+            let color;
 
-            model = await tmPose.load(modelURL, metadataURL);
-            maxPredictions = model.getTotalClasses();
+            model = await tmPose.load(modelURL, metadataURL); // 모델을 불러옵니다.
+            maxPredictions = model.getTotalClasses(); // 클래스의 갯수를 저장합니다.
 
-            const size = 450;
+            const size = 550;
             const flip = true;
-            webcam = new tmPose.Webcam(size, size, flip);
+            webcam = new tmPose.Webcam(size, size, flip); // 웹캠을 실행합니다.
             await webcam.setup();
-            await webcam.play();
+            await webcam.play();    // 웹캠을 실행합니다.
             window.requestAnimationFrame(loop);
 
+
             const canvas = document.getElementById("canvas");
-            canvas.width = size; canvas.height = size;
+            canvas.width = size;
+            canvas.height = size;
             ctx = canvas.getContext("2d");
             labelContainer = document.getElementById("label-container");
             for (let i = 0; i < maxPredictions; i++) {
                 labelContainer.appendChild(document.createElement("div"));
             }
 
-            async function loop(timestamp) {
-                webcam.update();
-                await predict();
+            async function loop(timestamp) { // 웹캠을 업데이트하는 함수
+                webcam.update();    // 웹캠 프레임을 업데이트합니다.
+                await predict();    // 캠에 비춰진 자세를 예측합니다.
                 window.requestAnimationFrame(loop);
             }
+
+
             // prediction[0] = good (바른 자세)
             // prediction[1] = right (오른쪽으로 치우쳐진 자세)
             // prediction[2] = left (왼쪽으로 치우쳐진 자세)
             // prediction[3] = front (앞으로 기울어진 자세)
             // prediction[4] = wall (벽이나 방)
             var status = "good";
+            var start = false;
             var before = "";
             var right = 0;
             var left = 0;
@@ -62,64 +75,72 @@
             var leftAudio = new Audio("./audio/left.mp3");
             var frontAudio = new Audio("./audio/front.mp3");
 
-            async function predict() {
-                const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+            async function predict() { // 웹캠을 이용해 자세를 예측하는 함수
+                const flipHorizontal = false;
+                const {
+                    pose,
+                    posenetOutput
+                } = await model.estimatePose(webcam.canvas, flipHorizontal);
                 const prediction = await model.predict(posenetOutput);
-                if (prediction[0].probability.toFixed(2) >= 0.8) {
+                if (prediction[0].probability.toFixed(2) > 0.8) { // 바른 자세일 경우
                     before = status;
-                    labelContainer.innerHTML = "<h4 style='color:blue;  font-size:36px;'><strong>좋은 자세입니다. 계속 유지하세요!</strong></h4>";
                     status = "good";
-                }
-                else if (prediction[1].probability.toFixed(2) == 1.00) {
+                    color = "green";
+                    if (start == false) {
+                        startClock();
+                        start = true;
+                    }
+                } else if (prediction[1].probability.toFixed(2) > 0.8) { // 왼쪽으로 치우쳐진 자세일 경우
                     if (status == before && status == "left") {
                         if (left < 10) {
                             left++;
-                        }
-                        else {
+                        } else {
+                            left1.innerHTML = left2++;
                             left = 0;
-                            labelContainer.innerHTML = "";
                             leftAudio.play();
+                            color = "red";
                         }
                     }
                     before = status;
                     status = "left";
-                }
-                else if (prediction[2].probability.toFixed(2) == 1.00) {
+                } else if (prediction[2].probability.toFixed(2) > 0.8) { // 오른쪽으로 치우쳐진 자세일 경우
                     if (status == before && status == "right") {
                         if (right < 10) {
                             right++;
-                        }
-                        else {
+                        } else {
+                            right1.innerHTML = right2++;
                             right = 0;
-                            labelContainer.innerHTML = "";
                             rightAudio.play();
+                            color = "red";
                         }
                     }
                     before = status;
                     status = "right";
-                }
-                else if (prediction[3].probability.toFixed(2) == 1.00) {
+                } else if (prediction[3].probability.toFixed(2) > 0.8) { // 앞으로 치우쳐진 자세일 경우
                     if (status == before && status == "front") {
                         if (front < 10) {
                             front++;
-                        }
-                        else {
+                        } else {
+                            front1.innerHTML = front2++;
                             front = 0;
                             frontAudio.play();
-                            labelContainer.innerHTML = "";
+                            color = "red";
                         }
                     }
                     before = status;
                     status = "front";
-                }
-                else if (prediction[4].probability.toFixed(2) == 1.00) {
+                } else if (prediction[4].probability.toFixed(2) > 0.8) { // 사람이 없는 경우
                     if (status == before && status == "wall") {
                         if (wall < 10) {
                             wall++;
-                        }
-                        else {
+                        } else {
+                            if (start == true) {
+                                stopClock();
+                                start = false;
+                            }
+                            stopClock();
                             wall = 0;
-                            labelContainer.innerHTML = "<h4 style='color: red; font-size:36px;'><strong>자리가 비었습니다.</strong></h4>";
+                            color = "aqua";
                         }
                     }
                     before = status;
@@ -128,102 +149,149 @@
                 drawPose(pose);
             }
 
-            function drawPose(pose) {
+            function drawPose(pose) { // 웹캠에서 사용자의 골격을 예측하는 함수
                 if (webcam.canvas) {
                     ctx.drawImage(webcam.canvas, 0, 0);
                     if (pose) {
-                        const minPartConfidence = 0.2;
-                        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-                        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+                        const minPartConfidence = 0.1;
+                        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx, 5, color, color);
+                        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx, 3, color);
                     }
                 }
             }
         }
 
-        function showPopup() {
-            window.open("popup.html", "사용 설명", "width=1000, height=700");
+        function showPopup() { // 사용 방법 팝업을 오픈하는 함수
+            window.open("./'frame.html', 사용 설명", "width=600, height=200");
         }
+        var timerID;
+        $(document).ready(function () {
+            $('#execute').on('click', function (e) {
+                e.preventDefault();
+                updateData();
+            });
+        });
 
-        function show() {
-            window.open("show.html", "하체", "width=400, height=300");
+        function updateData() {
+            $.ajax({
+                url: "getserver.php",
+                type: "post",
+                cache: false,
+                success: function (data) {// getserver.php 파일에서 echo 결과값이 data 임
+                    $('#showtime').html(data);
+                }
+            });
+            timerID = setTimeout("updateData()", 1000);// 1초 단위로 갱신 처리
+        }
+    </script>
+    <script>
+        window.onload = function () {
+            document.getElementById('execute').click();
         }
     </script>
 </head>
 
-<body id="wrapper">
-    <header>
-
-        <div class="header" style="position:relative;">
-            <!-- <img id="sit" src="./img/자세.png" style="z-index:1;height:170px;width:130px;position:absolute;margin-left:480px;margin-top:5px;"> -->
-            <h1><strong>EU 자세 교정 시스템</strong></h1>
-            <!-- <span><p>캠과 방석으로 스스로 자세를 교정하는 습관을 만들자! </p></span> -->
+<body>
+    <div id="container">
+        <div id="side_left">
+            <div style="margin-top:20px;">
+                <img src="./img/logo.png" style="width:90%;height:90%;">
+            </div>
+            <div style="margin-top:40px;">
+                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"
+                    style="width:230px;height:80px; margin-top:20px; margin-bottom:20px;font-size: 25px;font-weight: bold;">바른
+                    자세란?</button>
+                <br />
+                <button type="button" data-toggle="modal" data-target="#example" class="btn btn-primary"
+                    style="width:230px;height:80px; margin-top:20px; margin-bottom:20px;font-size: 25px;font-weight: bold;">사용
+                    방법</button>
+            </div>
         </div>
-    </header>
-
-    <section>
-        <div id="menu">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button style="font-size:20px;" class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                            aria-controls="collapseTwo">
-                            <strong>바른 자세란?</strong>
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body" style="font-size: 18px; text-align:left;">
-                            <strong>1.</strong> 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록 앉아서 <strong>무릎이 90도
-                                정도</strong>가 되도록 조정한다. <br /><strong>2.</strong> 앉는 면의
-                            길이는 몸을 충분히 지탱해 줄 수
-                            있는, <strong>엉덩이와 무릎까지의 길이에 2cm를 더한 수치</strong>가 좋으며, 너비는 <strong>엉덩이의 너비에 6~7cm</strong>의
-                            여유를 두면 좋다. <br /><strong>3.</strong> 책상의 높이는 바른 자세로 앉아 팔을 내렸을
-                            때, <strong>팔꿈치 높이보다 1~2cm 정도</strong> 높은 책상이 적당한데, 팔을 자연스럽게 올렸을 때, <strong>팔꿈치가 90도를
-                                유지</strong>하는 것이 좋다.
-                            <div class="sit">
-                                <!-- 바른 자세 이미지 -->
-                                <!-- <img src="./img/sit.png" style="width:400px; height:400px;padding:50px;"> -->
-                            </div>
+        <div id="contents">
+            <div class="canvas" style="margin-top:10%;">
+                <div style="position:relative;text-align:center;">
+                    <div style="position:absolute; text-align:center;margin-left:157px;">
+                        <!-- <img style="width:550px;height:550px;" src="./img/십자선.png"> -->
+                    </div>
+                    <canvas id="canvas"></canvas>
+                    <div id="length">
+                        <div style="line-height: 90px;margin:auto;margin: 30px;text-align:center;">
+                            <h4 id="label-container">
+                                <div id="stoll" style="margin-top:30px;">
+                                    <h2 id="stopwatch"
+                                        style="line-height: 180px;font-size:60px;font-weight: bold;margin-left:-10%;">
+                                        00:00:00
+                                    </h2>
+                                </div>
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="all">
-            <!-- <div class="left">
-                자세 이미지가 나타나는 부분
-                <img src="./img/set.png">
-                추후 js로 실시간 이미지 변화를 줄 예정
-            </div> -->
-            <div class="right">
-                <!--문구 띄우는 부분-->
-                <!-- <button type="button" onclick="finish()" class="btn btn-primary btn-size"
-                    style="width:80px;height:50px;">
-                    <img src="camera-video-off.svg" style="width:40px;height:35px;"></button> -->
-
-                <div id="mini">
-                    <button type="button" onclick="showPopup()" class="btn btn-primary"
-                        style="width:100px;height:40px; margin-top:10px; margin-bottom:10px;">사용 방법</button>
-                    <!-- <button type="button" class="btn btn-success" onclick="show()" style="width:100px;height:40px; margin-top:10px; margin-bottom:10px;">하체 팝업</button> -->
-                    <div id><canvas id="canvas"></canvas></div>
-                    <div id="label-container" style="margin: 5px;"></div>
-                </div>
-                <!--js로 실시간 문구 변화-->
-            </div>
-            <!-- <button type="button" id="finish" onclick="init()" class="btn btn-primary btn-size"
-                    style="width:80px;height:50px;float:right;">
-                    <img src="./img/camera-video-fill.svg" style="width:40px;height:35px;"></button> -->
+        <div id="side_right">
+            <input type="button" style="margin: 30px;font-size:20px" id="execute" class="btn btn-primary"
+                value="하체 측정 시작" />
+            <p style="font-size:24px; margin:20px; font-weight: bold;">하체 posture : <span id="showtime">0</span></p>
+            <p style="font-size:24px; margin:20px; font-weight: bold;">앞쪽으로 기울어짐 : <span id="front">0</span></p>
+            <p style="font-size:24px; margin:20px; font-weight: bold;">왼쪽으로 기울어짐 : <span id="left">0</span></p>
+            <p style="font-size:24px; margin:20px; font-weight: bold;">오른쪽으로 기울어짐 : <span id="right">0</span></p>
         </div>
-    </section>
-
-    <footer>
-        <!--넣을 게 있나?-->
-    </footer>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document"
+            style="max-width: 80%; width: auto; max-height:50%; height: auto; display: table;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">바른 자세란?</h1>
+                </div>
+                <div class="modal-body" style="font-size:18px;margin:20px;">
+                    <strong>1.</strong> 책상을 당겨서 앉은 키가 가장 크도록 한다. 무릎이 지면과 수평이 되도록 앉아서 <strong>무릎이 90도
+                        정도</strong>가 되도록 조정한다. <br /><strong>2.</strong> 앉는 면의
+                    길이는 몸을 충분히 지탱해 줄 수
+                    있는, <strong>엉덩이와 무릎까지의 길이에 2cm를 더한 수치</strong>가 좋으며, 너비는 <strong>엉덩이의 너비에 6~7cm</strong>의
+                    여유를 두면 좋다. <br /><strong>3.</strong> 책상의 높이는 바른 자세로 앉아 팔을 내렸을
+                    때, <strong>팔꿈치 높이보다 1~2cm 정도</strong> 높은 책상이 적당한데, 팔을 자연스럽게 올렸을 때, <strong>팔꿈치가 90도를
+                        유지</strong>하는 것이 좋다.
+                    <div style="text-align:center;margin-top:20px;">
+                        <img style="width:30%;height:30%;" src="./img/앉은 자세.png">
+                    </div>
+                    <p style="text-align:right;margin-right:10px;">출처: 아산시 보건소</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document"
+            style="max-width: 100%; width: auto; display: table;max-height:50%; height: auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLabel" style="font-weight:bold;">EU 자세 교정 사용 방법</h1>
+                </div>
+                <div class="modal-body" style="font-size:22px;margin:10px;">
+                    <div style="text-align:center;">
+                        <img src="./img/사용 방법.png" style="width:60%; height:60%;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/app.js" type="text/javascript"></script>
+    <script src="./test.js" type="text/javascript"></script>
     <script>
-            $(document).ready(function () {
-                init();
-            });
+        $(document).ready(function () {
+            init();
+            document.getElementById('execute').click();
+        });
     </script>
 </body>
 
